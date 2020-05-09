@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from api.models import Symptoms, Diagnosis
 import csv
 class Command(BaseCommand):
-	help = 'Closes the specified poll for voting'
+	help = 'Initializes db with default values from csv'
 
 	def handle(self, *args, **options):
 		file = open("symptoms.csv", 'r')
@@ -16,7 +16,7 @@ class Command(BaseCommand):
 			del diagnoses[0]
 
 			for diagnosis in diagnoses:
-				print(diagnosis)
+				# print(diagnosis)
 				diag = Diagnosis(name=diagnosis, symptom=symptom)
 				diag.save()
 

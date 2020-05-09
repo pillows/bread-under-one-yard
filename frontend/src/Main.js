@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import {Typeahead} from 'react-bootstrap-typeahead'; // ES2015
+import SearchComponent from './components/Search2'
 
 const Main = () => {
     return (
@@ -15,12 +15,7 @@ const Main = () => {
                 <Col xs="3"></Col>
                     <Col xs="6" >
                         <h1>Symptom Diagnostic</h1>
-                        <Typeahead
-                            onChange={(selected) => {
-                            // Handle selections...
-                            }}
-                            options={[ 'test', 'cool' ]}
-                        />
+                        <SearchComponent />
                     </Col>
                     <Col xs="3"></Col>
                 </Row>
