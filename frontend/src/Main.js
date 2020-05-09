@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import SearchComponent from './components/Search2'
+import Search from './components/Search'
 
 const Main = () => {
     return (
@@ -15,7 +15,7 @@ const Main = () => {
                 <Col xs="3"></Col>
                     <Col xs="6" >
                         <h1>Symptom Diagnostic</h1>
-                        <SearchComponent />
+                        <Search />
                     </Col>
                     <Col xs="3"></Col>
                 </Row>

@@ -1,63 +1,79 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable no-shadow */
+import React, { Component } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form'
+import DiagnosisContainer from './Diagnosis'
+import axios from 'axios';
 
-// import fetch from 'isomorphic-fetch';
-import React, { useCallback, useState } from 'react';
-import { Typeahead } from 'react-bootstrap-typeahead';
+class SearchContainer extends Component {
 
-// Polyfill Promises for IE and older browsers.
-// require('es6-promise').polyfill();
+    constructor(props) {
+        super(props)
+        this.state = {
+            symptoms: [],
+            ready: false,
+            currentSymptom: ""
+        }
 
-/* example-start */
-const SEARCH_URI = 'http://localhost:8000/api/symptoms';
+        this.pickSymptom = this.pickSymptom.bind(this)
+    }
 
-const AsyncExample = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [options, setOptions] = useState([]);
+    pickSymptom(e){
+        console.log(e.target.value)
+        this.setState({
+            ready:true
+        })
 
-  const [multiple, setMultiple] = useState(false);
-  const [selected, setSelected] = useState([]);
+        this.setState({
+            currentSymptom: e.target.value
+        })
+    }
 
-  // setOptions(['test'])
-  const handleSearch = useCallback((query) => {
-    // setOptions(['test'])
-    fetch(`${SEARCH_URI}`)
-      .then((resp) => resp.json())
-      .then((symptoms) => {
-        // const optio
+    componentDidMount() {
+        axios.get(`http://localhost:8000/api/symptoms`)
+        .then(res => {
+            // console.log("test", res.data)
+            this.setState({
+                symptoms: res.data
+            })
 
+            // console.log("state", this.state)
+            // console.log("state", this.state)
+            // const persons = res.data;
+            // this.setState({ persons });
+        })
+
+        // console.log(this.state)
+
+    }
+
+    render() {
+ 
         
-        
-      });
-  })
-  // const handleSearch = useCallback((query) => {
-  //   setIsLoading(true);
+        return (
+            <div className="SearchComponent">
+                <Form>
+                    <Form.Group controlId="exampleForm.SelectCustom">
+                    <Form.Label>Custom select</Form.Label>
+                    <Form.Control as="select" custom onChange={this.pickSymptom}>
+                        <option>Pick your symptom</option>
+                        {
+                            this.state.symptoms.map((symptom,i) => {
+                                return <option key={i}>{symptom.name}</option>
+                            })
+                        }
+                        
+                    </Form.Control>
+                    {
+                        this.state.ready ? <DiagnosisContainer symptom={this.state.currentSymptom} /> : ""
+                    }
+                    </Form.Group>
+                </Form>
+            </div>
+            
+            
+            
+        );
+    }
+}
 
-  //   fetch(`${SEARCH_URI}`)
-  //     .then((resp) => resp.json())
-  //     .then((data) => {
-  //       const options = ['test']
-  //       setOptions(options)
-  //     });
-  // });
-
-  return (
-    <Typeahead
-        id="basic-typeahead-example"
-        labelKey="name"
-        multiple={multiple}
-        onChange={setSelected}
-        onFocus={handleSearch}
-        options={options}
-        placeholder="Choose a state..."
-        selected={selected}
-        renderMenuItemChildren={(option, props) => (
-            <div>{option}</div>
-        )}
-      />
-  );
-};
-/* example-end */
-
-export default AsyncExample;
+export default SearchContainer

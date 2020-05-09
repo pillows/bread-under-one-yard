@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
-
+import DiagnosisContainer from './Diagnosis'
 import axios from 'axios';
 
-class SearchComponent extends Component {
+class SearchContainer extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            symptoms: []
+            symptoms: [],
+            ready: false,
+            currentSymptom: ""
         }
 
         this.pickSymptom = this.pickSymptom.bind(this)
     }
 
     pickSymptom(e){
-        console.log(e)
+        console.log(e.target.value)
+        this.setState({
+            ready:true
+        })
+
+        this.setState({
+            currentSymptom: e.target.value
+        })
     }
 
     componentDidMount() {
@@ -45,14 +54,18 @@ class SearchComponent extends Component {
                 <Form>
                     <Form.Group controlId="exampleForm.SelectCustom">
                     <Form.Label>Custom select</Form.Label>
-                    <Form.Control as="select" custom>
+                    <Form.Control as="select" custom onChange={this.pickSymptom}>
                         <option>Pick your symptom</option>
                         {
                             this.state.symptoms.map((symptom,i) => {
-                                return <option onClick={this.pickSymptom} key={i}>{symptom.name}</option>
+                                return <option key={i}>{symptom.name}</option>
                             })
                         }
+                        
                     </Form.Control>
+                    {
+                        this.state.ready ? <DiagnosisContainer symptom={this.state.currentSymptom} /> : ""
+                    }
                     </Form.Group>
                 </Form>
             </div>
@@ -63,4 +76,4 @@ class SearchComponent extends Component {
     }
 }
 
-export default SearchComponent
+export default SearchContainer
