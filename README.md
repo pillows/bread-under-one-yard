@@ -2,7 +2,7 @@
 # bread-under-one-yard-backend
 Repo name was named using the letters of the company and the BIP39 wordlist from the bitcoin protocol.
 
-#Prequisites
+# Prequisites
 NodeJS, npm, Python3, and >Django2 is necessary for this assignment to run.
 These were the tested versions:
 Node: v13.10.1
@@ -10,7 +10,7 @@ npm: 6.13.7
 Python3: 3.7.6
 Django: 2.0.2
 
-#Install
+# Install
 
 First the repo must be cloned:
 ```bash
