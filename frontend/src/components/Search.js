@@ -15,11 +15,11 @@ class SearchContainer extends Component {
             symptomsData: [],
             diagnosisData: [],
             graphData: {},
-            symptomRank: 0,
+            diagnosisRank: 0,
             showThanksModal: false,
-            startId: 0,
+            startId: 0, // This holds the ID of the first Diagnosis filtered by Symptom. Not always guaranted to start at 1
             showGraph: false,
-            symptomId: 0
+            symptomId: 0 
         }
     }
 
@@ -32,10 +32,9 @@ class SearchContainer extends Component {
         })
     }
 
-    requestDiagnoses = (symptomId) => {
-        axios.get(`http://localhost:8000/api/symptoms/${symptomId}`)
+    requestDiagnoses = (currentsymptomId) => {
+        axios.get(`http://localhost:8000/api/symptoms/${currentSymptomIdsymptomId}`)
             .then(res => {
-                console.log("data", res)
                 this.setState({
                     diagnosisData: res.data,
                     startId: res.data[0].id
@@ -44,19 +43,19 @@ class SearchContainer extends Component {
     }
 
     rejectChoice = () => {
-        if(this.state.symptomRank === this.state.diagnosisData.length - 1){
+        if(this.state.diagnosisRank === this.state.diagnosisData.length - 1){
             alert("all choices rejected")
             return
         }
-        this.setState({ symptomRank: this.state.symptomRank + 1 })
+        this.setState({ diagnosisRank: this.state.diagnosisRank + 1 })
     }
 
     generateGraphData = () => {
-        this.requestDiagnoses(this.state.symptomId)
+        this.requestDiagnoses(this.state.currentSymptomId)
         let diagnosisNames = []
         let diagnosisCounts = []
 
-        //comment
+        //This populates the names of the diagnoses and their respective counters of the statistics bar graph
         for(const diag of this.state.diagnosisData){
             diagnosisNames.push(diag.name) // x-axis
             diagnosisCounts.push(diag.counter) // y-axis
@@ -79,9 +78,10 @@ class SearchContainer extends Component {
     }
 
     correctChoice = () => {
-        // symtomId is the offset for 
-        const symptomId = parseInt(this.state.symptomRank) + parseInt(this.state.startId)
-        console.log("symptomId", symptomId)
+        // symtomId is the offset for getting the Diagnosis that the user selected
+        // Since it's not always guaranteed to start at ID 0 and a user may pick a 
+        // Diagnosis that is not first ranked
+        const symptomId = parseInt(this.state.diagnosisRank) + parseInt(this.state.startId)
         axios.get(`http://localhost:8000/api/diagnosis/${symptomId}/increment`)
             .then(res => {
                 this.setState({showThanksModal: !this.state.showThanksModal, showGraph: true},
@@ -97,8 +97,8 @@ class SearchContainer extends Component {
             })
     }
 
-    pickSymptom = (element) => {
-        const symptomId = element.target.value
+    pickSymptom = (dropdown) => {
+        const symptomId = dropdown.target.value
         this.setState({symptomId: symptomId})
         this.requestDiagnoses(symptomId)
     }
@@ -108,7 +108,7 @@ class SearchContainer extends Component {
             symptomsData: [],
             diagnosisData: [],
             graphData: {},
-            symptomRank: 0,
+            diagnosisRank: 0,
             showThanksModal: false,
             startId: 0,
             showGraph: false,
@@ -141,7 +141,7 @@ class SearchContainer extends Component {
                             diagnosis={this.state.diagnosisData}
                             rejectChoice={this.rejectChoice}
                             correctChoice={this.correctChoice}
-                            rank={this.state.symptomRank}
+                            rank={this.state.diagnosisRank}
                         /> : null
                     }
                     </Form.Group>
