@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 import DiagnosisContainer from './Diagnosis'
 import GraphDiagnosesCount from './GraphDiagnosesCount'
@@ -17,7 +18,8 @@ class SearchContainer extends Component {
             symptomRank: 0,
             showThanksModal: false,
             startId: 0,
-            showGraph: false
+            showGraph: false,
+            symptomId: 0
         }
     }
 
@@ -25,7 +27,7 @@ class SearchContainer extends Component {
         axios.get(`http://localhost:8000/api/symptoms`)
         .then(res => {
             this.setState({
-                symptoms: res.data
+                symptomsData: res.data
             })
         })
     }
@@ -33,6 +35,7 @@ class SearchContainer extends Component {
     requestDiagnoses = (symptomId) => {
         axios.get(`http://localhost:8000/api/symptoms/${symptomId}`)
             .then(res => {
+                console.log("data", res)
                 this.setState({
                     diagnosisData: res.data,
                     startId: res.data[0].id
@@ -41,16 +44,44 @@ class SearchContainer extends Component {
     }
 
     rejectChoice = () => {
-        if(this.state.symptomRank === this.state.diagnosis.length - 1){
+        if(this.state.symptomRank === this.state.diagnosisData.length - 1){
             alert("all choices rejected")
             return
         }
-        this.setState({ symptomRankrank: this.state.symptomRank + 1 })
+        this.setState({ symptomRank: this.state.symptomRank + 1 })
+    }
+
+    generateGraphData = () => {
+        this.requestDiagnoses(this.state.symptomId)
+        let diagnosisNames = []
+        let diagnosisCounts = []
+
+        //comment
+        for(const diag of this.state.diagnosisData){
+            diagnosisNames.push(diag.name) // x-axis
+            diagnosisCounts.push(diag.counter) // y-axis
+        }
+        let graphData = {
+            labels: diagnosisNames,
+            datasets: [
+                {
+                    label: 'Diagnosis Count',
+                    backgroundColor: 'rgba(75,192,192,1)',
+                    borderColor: 'rgba(0,0,0,1)',
+                    borderWidth: 2,
+                    data: diagnosisCounts
+                }
+            ]
+        }
+        this.setState({
+            graphData: graphData
+        })
     }
 
     correctChoice = () => {
         // symtomId is the offset for 
-        const symptomId = this.state.rank + this.state.startId 
+        const symptomId = parseInt(this.state.symptomRank) + parseInt(this.state.startId)
+        console.log("symptomId", symptomId)
         axios.get(`http://localhost:8000/api/diagnosis/${symptomId}/increment`)
             .then(res => {
                 this.setState({showThanksModal: !this.state.showThanksModal, showGraph: true},
@@ -62,52 +93,33 @@ class SearchContainer extends Component {
                 )
             })
             .then(() => {
-
-                // make into graph function
-                /*
-                this.requestDiagnoses(symptomId)
-
-                let diagnosisNames = []
-                let diagnosisCounts = []
-
-                //comment
-                for(const diag of this.state.diagnosis){
-                    diagnosisNames.push(diag.name) // x-axis
-                    diagnosisCounts.push(diag.counter) // y-axis
-                }
-
-                let graphData = {
-                    labels: diagnosisNames,
-                    datasets: [
-                        {
-                            label: 'Diagnosis Count',
-                            backgroundColor: 'rgba(75,192,192,1)',
-                            borderColor: 'rgba(0,0,0,1)',
-                            borderWidth: 2,
-                            data: diagnosisCounts
-                        }
-                    ]
-                }
-
-                this.setState({
-                    graphData: graphData
-                })
-                */
+                this.generateGraphData()
             })
     }
 
     pickSymptom = (element) => {
         const symptomId = element.target.value
+        this.setState({symptomId: symptomId})
         this.requestDiagnoses(symptomId)
     }
 
-    resetUI(){
-        
+    resetUI = () => {
+        this.setState({
+            symptomsData: [],
+            diagnosisData: [],
+            graphData: {},
+            symptomRank: 0,
+            showThanksModal: false,
+            startId: 0,
+            showGraph: false,
+            symptomId: 0
+
+        })
     }
 
     renderSymptomsList = () => {
         return (
-            this.state.symptoms.map((symptom,i) => {
+            this.state.symptomsData.map((symptom,i) => {
                 return <option value={symptom.id} key={i}>{symptom.name}</option>
             })
         )
@@ -116,25 +128,27 @@ class SearchContainer extends Component {
     render() {
         return (
             <div className="SearchComponent">
-                { this.state.showThanksModal && <ThankYou /> }
+                { this.state.showThanksModal ? <ThankYou /> : null }
                 <Form>
                     <Form.Group controlId="exampleForm.SelectCustom">
-                    <Form.Label>Custom select</Form.Label>
-                    <Form.Control as="select" custom onChange={this.pickSymptom)}>
+                    <Form.Control as="select" custom onChange={this.pickSymptom}>
                         <option >Pick your symptom</option>
-                        {this.renderSymptoms()}
+                        {this.renderSymptomsList()}
                     </Form.Control>
                     { 
-                        this.state.diagnosis.length &&
+                        this.state.diagnosisData.length ?
                         <DiagnosisContainer 
-                            diagnosis={this.state.diagnosis}
+                            diagnosis={this.state.diagnosisData}
                             rejectChoice={this.rejectChoice}
                             correctChoice={this.correctChoice}
-                            rank={this.state.rank}
-                        />
+                            rank={this.state.symptomRank}
+                        /> : null
                     }
                     </Form.Group>
-                    { this.state.showGraph && <GraphDiagnosesCount graphData={this.state.graphData} /> }
+                    { 
+                        this.state.showGraph ? 
+                        (<><Button variant="success" onClick={this.resetUI} float="center">Success</Button><GraphDiagnosesCount graphData={this.state.graphData} /></>) : null
+                    }
                 </Form>
             </div>
         );

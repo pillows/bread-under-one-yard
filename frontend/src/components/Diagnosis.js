@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
-const DiagnosisContainer = () => {
+const DiagnosisContainer = (props) => {
 	return(
 		<div className="DiagnosisContainer">
             <Modal.Dialog>
@@ -10,11 +10,11 @@ const DiagnosisContainer = () => {
                     <Modal.Title>Diagnosis Suggestion</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Maybe you have the {this.props.diagnosis[this.props.rank].name}</p>
+                    <p>Maybe you have the {props.diagnosis[props.rank].name}</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.props.correctChoice} variant="primary">Correct</Button>
-                    <Button onClick={this.props.rejectChoice} variant="secondary">Next Suggestion</Button>
+                    <Button onClick={props.correctChoice} variant="primary">Correct</Button>
+                    <Button onClick={props.rejectChoice} variant="secondary">Next Suggestion</Button>
                 </Modal.Footer>
             </Modal.Dialog>
 		</div>

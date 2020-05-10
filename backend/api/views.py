@@ -11,14 +11,14 @@ def symptoms_list(request):
     if request.method=='GET':
         obj=Symptoms.objects.all()
         serializer=SymptomsSerializer(obj,many=True)
-        return Response(serializer.data)
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
 
 @api_view(['GET'])
 def diagnosis_list(request):
     if request.method=='GET':
         obj=Diagnosis.objects.all()
         serializer=DiagnosisSerializer(obj,many=True)
-        return Response(serializer.data)
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
 
 @api_view(['GET'])
 def diagnosis_list_by_symptom(request,pk):
@@ -28,7 +28,10 @@ def diagnosis_list_by_symptom(request,pk):
         else:
             obj=Diagnosis.objects.all().filter(symptom=pk)
         serializer=DiagnosisSerializer(obj,many=True)
-        return Response(serializer.data)
+
+        if not serializer.data:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
 
 @api_view(['GET'])
 def diagnosis_increment(request,pk):
@@ -40,4 +43,4 @@ def diagnosis_increment(request,pk):
         counter = obj.values("counter")[0]["counter"] + 1
         obj.update(counter=counter)
         serializer=DiagnosisSerializer(obj, many=True)
-        return Response(serializer.data)
+        return Response(status=status.HTTP_200_OK,data=serializer.data)

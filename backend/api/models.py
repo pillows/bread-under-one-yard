@@ -11,9 +11,8 @@ class Symptoms(models.Model):
 
 class Diagnosis(models.Model):
 	name = models.CharField(max_length=255)
-	# symptom = models.ForeignKey(Symptoms, on_delete=models.CASCADE,)
 	symptom = models.ForeignKey(to=Symptoms, on_delete=models.CASCADE)
 	counter = models.IntegerField(default=0)
-
+	
 	def __str__(self):
 		return self.name
