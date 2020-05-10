@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import Main from './Main'
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'react-bootstrap-typeahead/css/Typeahead.css';

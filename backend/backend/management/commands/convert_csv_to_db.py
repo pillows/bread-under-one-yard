@@ -11,12 +11,8 @@ class Command(BaseCommand):
 		for diagnoses in reader:
 			symptom = Symptoms.objects.create(name=diagnoses[0])
 			symptom.save()
-			# print(symptom)
-			# Need to delete the first index to accomodate for the symptoms
 			del diagnoses[0]
-
 			for diagnosis in diagnoses:
-				print(diagnosis)
 				diag = Diagnosis.objects.create(name=diagnosis, symptom=symptom)
 				diag.save()
 
