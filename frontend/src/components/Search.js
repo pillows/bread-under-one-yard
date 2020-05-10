@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import DiagnosisContainer from './Diagnosis'
 import axios from 'axios';
@@ -10,66 +9,72 @@ class SearchContainer extends Component {
         super(props)
         this.state = {
             symptoms: [],
-            ready: false,
-            currentSymptom: ""
+            diagnosis: [],
+            currentSymptom: null
         }
 
         this.pickSymptom = this.pickSymptom.bind(this)
     }
 
-    pickSymptom(e){
-        console.log(e.target.value)
-        this.setState({
-            ready:true
+    requestDiagnoses(symptom){
+        axios.get(`http://localhost:8000/api/symptoms/${symptom}`)
+        .then(res => {
+
+            this.setState({
+                diagnosis: res.data, 
+            })
+
         })
+    }
+
+    pickSymptom(element){
+        
+        const symptom = parseInt(element.target.value) + 1
 
         this.setState({
-            currentSymptom: e.target.value
+            currentSymptom: symptom
+        },() => {
+            console.log("i am in pickSymptom", this.state)
         })
+
+        this.requestDiagnoses(symptom)
+        
     }
 
     componentDidMount() {
         axios.get(`http://localhost:8000/api/symptoms`)
         .then(res => {
             // console.log("test", res.data)
+
             this.setState({
                 symptoms: res.data
             })
-
-            // console.log("state", this.state)
-            // console.log("state", this.state)
-            // const persons = res.data;
-            // this.setState({ persons });
         })
-
-        // console.log(this.state)
 
     }
 
     render() {
  
-        
         return (
             <div className="SearchComponent">
                 <Form>
                     <Form.Group controlId="exampleForm.SelectCustom">
                     <Form.Label>Custom select</Form.Label>
-                    <Form.Control as="select" custom onChange={this.pickSymptom}>
-                        <option>Pick your symptom</option>
+                    <Form.Control as="select" custom onChange={this.pickSymptom.bind(this)}>
+                        <option >Pick your symptom</option>
                         {
                             this.state.symptoms.map((symptom,i) => {
-                                return <option key={i}>{symptom.name}</option>
+                                return <option value={i} key={symptom.name}>{symptom.name}</option>
                             })
                         }
                         
                     </Form.Control>
                     {
-                        this.state.ready ? <DiagnosisContainer symptom={this.state.currentSymptom} /> : ""
+                        this.state.diagnosis.length ? <DiagnosisContainer diagnosis={this.state.diagnosis}/> : ""
                     }
                     </Form.Group>
                 </Form>
             </div>
-            
             
             
         );
