@@ -1,0 +1,7 @@
+venv
+.env
+buoyenv
+node_modules
+debug.log
+*.pyc
+db.sqlite3
