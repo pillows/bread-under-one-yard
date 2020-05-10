@@ -10,7 +10,7 @@ const DiagnosisContainer = (props) => {
                     <Modal.Title>Diagnosis Suggestion</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Maybe you have the {props.diagnosis[props.rank].name}</p>
+                    <p>Possible Diagnosis: {props.diagnosis[props.rank].name}</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={props.correctChoice} variant="primary">Correct</Button>

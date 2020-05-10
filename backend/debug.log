@@ -4639,3 +4639,217 @@ Not Found: /favicon.ico
 "GET /api/symptoms HTTP/1.1" 301 0
 (0.000) SELECT "api_symptoms"."id", "api_symptoms"."name" FROM "api_symptoms"; args=()
 "GET /api/symptoms/ HTTP/1.1" 200 89
+(0.001) 
+            SELECT name, type FROM sqlite_master
+            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'
+            ORDER BY name; args=None
+(0.000) SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"; args=()
+"GET /api/symptoms HTTP/1.1" 301 0
+(0.001) SELECT "api_symptoms"."id", "api_symptoms"."name" FROM "api_symptoms"; args=()
+"GET /api/symptoms/ HTTP/1.1" 200 89
+"GET /api/symptoms HTTP/1.1" 301 0
+(0.000) SELECT "api_symptoms"."id", "api_symptoms"."name" FROM "api_symptoms"; args=()
+"GET /api/symptoms/ HTTP/1.1" 200 89
+(0.001) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."symptom_id" = 2; args=(2,)
+"GET /api/symptoms/2 HTTP/1.1" 200 582
+(0.000) SELECT "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 9 LIMIT 1; args=(9,)
+(0.000) BEGIN; args=None
+(0.000) UPDATE "api_diagnosis" SET "counter" = 10 WHERE "api_diagnosis"."id" = 9; args=(10, 9)
+(0.000) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 9; args=(9,)
+"GET /api/diagnosis/9/increment HTTP/1.1" 200 80
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/urls/resolvers.py", line 523, in resolve
+    raise Resolver404({'tried': tried, 'path': new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLPattern 'api/symptoms/'>], [<URLPattern 'api/symptoms/<int:pk>'>], [<URLPattern 'api/diagnosis/'>], [<URLPattern 'api/diagnosis/<int:pk>/increment'>]], 'path': 'api/symptoms/undefined'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 835, in _resolve_lookup
+    current = current[bit]
+TypeError: 'URLResolver' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 843, in _resolve_lookup
+    current = getattr(current, bit)
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 856, in _resolve_lookup
+    (bit, current))  # missing attribute
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Not Found: /api/symptoms/undefined
+"GET /api/symptoms/undefined HTTP/1.1" 404 2498
+"GET /api/symptoms HTTP/1.1" 301 0
+(0.000) SELECT "api_symptoms"."id", "api_symptoms"."name" FROM "api_symptoms"; args=()
+"GET /api/symptoms/ HTTP/1.1" 200 89
+(0.000) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."symptom_id" = 3; args=(3,)
+"GET /api/symptoms/3 HTTP/1.1" 200 662
+(0.000) SELECT "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 18 LIMIT 1; args=(18,)
+(0.000) BEGIN; args=None
+(0.000) UPDATE "api_diagnosis" SET "counter" = 6 WHERE "api_diagnosis"."id" = 18; args=(6, 18)
+(0.000) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 18; args=(18,)
+"GET /api/diagnosis/18/increment HTTP/1.1" 200 62
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/urls/resolvers.py", line 523, in resolve
+    raise Resolver404({'tried': tried, 'path': new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLPattern 'api/symptoms/'>], [<URLPattern 'api/symptoms/<int:pk>'>], [<URLPattern 'api/diagnosis/'>], [<URLPattern 'api/diagnosis/<int:pk>/increment'>]], 'path': 'api/symptoms/undefined'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 835, in _resolve_lookup
+    current = current[bit]
+TypeError: 'URLResolver' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 843, in _resolve_lookup
+    current = getattr(current, bit)
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 856, in _resolve_lookup
+    (bit, current))  # missing attribute
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Not Found: /api/symptoms/undefined
+"GET /api/symptoms/undefined HTTP/1.1" 404 2498
+"GET /api/symptoms HTTP/1.1" 301 0
+(0.000) SELECT "api_symptoms"."id", "api_symptoms"."name" FROM "api_symptoms"; args=()
+"GET /api/symptoms/ HTTP/1.1" 200 89
+(0.000) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."symptom_id" = 2; args=(2,)
+"GET /api/symptoms/2 HTTP/1.1" 200 583
+(0.000) SELECT "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 9 LIMIT 1; args=(9,)
+(0.000) BEGIN; args=None
+(0.001) UPDATE "api_diagnosis" SET "counter" = 11 WHERE "api_diagnosis"."id" = 9; args=(11, 9)
+(0.000) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 9; args=(9,)
+"GET /api/diagnosis/9/increment HTTP/1.1" 200 80
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/urls/resolvers.py", line 523, in resolve
+    raise Resolver404({'tried': tried, 'path': new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLPattern 'api/symptoms/'>], [<URLPattern 'api/symptoms/<int:pk>'>], [<URLPattern 'api/diagnosis/'>], [<URLPattern 'api/diagnosis/<int:pk>/increment'>]], 'path': 'api/symptoms/undefined'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 835, in _resolve_lookup
+    current = current[bit]
+TypeError: 'URLResolver' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 843, in _resolve_lookup
+    current = getattr(current, bit)
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 856, in _resolve_lookup
+    (bit, current))  # missing attribute
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Not Found: /api/symptoms/undefined
+"GET /api/symptoms/undefined HTTP/1.1" 404 2498
+(0.000) 
+            SELECT name, type FROM sqlite_master
+            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'
+            ORDER BY name; args=None
+(0.000) SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"; args=()
+"GET /api/symptoms HTTP/1.1" 301 0
+(0.000) SELECT "api_symptoms"."id", "api_symptoms"."name" FROM "api_symptoms"; args=()
+"GET /api/symptoms/ HTTP/1.1" 200 89
+(0.001) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."symptom_id" = 2; args=(2,)
+"GET /api/symptoms/2 HTTP/1.1" 200 583
+(0.000) SELECT "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 9 LIMIT 1; args=(9,)
+(0.000) BEGIN; args=None
+(0.000) UPDATE "api_diagnosis" SET "counter" = 12 WHERE "api_diagnosis"."id" = 9; args=(12, 9)
+(0.000) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 9; args=(9,)
+"GET /api/diagnosis/9/increment HTTP/1.1" 200 80
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/urls/resolvers.py", line 523, in resolve
+    raise Resolver404({'tried': tried, 'path': new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLPattern 'api/symptoms/'>], [<URLPattern 'api/symptoms/<int:pk>'>], [<URLPattern 'api/diagnosis/'>], [<URLPattern 'api/diagnosis/<int:pk>/increment'>]], 'path': 'api/symptoms/undefined'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 835, in _resolve_lookup
+    current = current[bit]
+TypeError: 'URLResolver' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 843, in _resolve_lookup
+    current = getattr(current, bit)
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/pillows/bread-under-one-yard/buoyenv/lib/python3.7/site-packages/django/template/base.py", line 856, in _resolve_lookup
+    (bit, current))  # missing attribute
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Not Found: /api/symptoms/undefined
+"GET /api/symptoms/undefined HTTP/1.1" 404 2498
+(0.000) 
+            SELECT name, type FROM sqlite_master
+            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'
+            ORDER BY name; args=None
+(0.000) SELECT "django_migrations"."app", "django_migrations"."name" FROM "django_migrations"; args=()

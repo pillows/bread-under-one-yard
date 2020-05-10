@@ -32,8 +32,8 @@ class SearchContainer extends Component {
         })
     }
 
-    requestDiagnoses = (currentsymptomId) => {
-        axios.get(`http://localhost:8000/api/symptoms/${currentSymptomIdsymptomId}`)
+    requestDiagnoses = (currentSymptomId) => {
+        axios.get(`http://localhost:8000/api/symptoms/${currentSymptomId}`)
             .then(res => {
                 this.setState({
                     diagnosisData: res.data,
