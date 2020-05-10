@@ -4627,3 +4627,15 @@ Not Found: /favicon.ico
 "GET /api/symptoms HTTP/1.1" 301 0
 (0.000) SELECT "api_symptoms"."id", "api_symptoms"."name" FROM "api_symptoms"; args=()
 "GET /api/symptoms/ HTTP/1.1" 200 89
+(0.000) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."symptom_id" = 3; args=(3,)
+"GET /api/symptoms/3 HTTP/1.1" 200 662
+(0.001) SELECT "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 17 LIMIT 1; args=(17,)
+(0.000) BEGIN; args=None
+(0.000) UPDATE "api_diagnosis" SET "counter" = 1 WHERE "api_diagnosis"."id" = 17; args=(1, 17)
+(0.000) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."id" = 17; args=(17,)
+"GET /api/diagnosis/17/increment HTTP/1.1" 200 56
+(0.000) SELECT "api_diagnosis"."id", "api_diagnosis"."name", "api_diagnosis"."symptom_id", "api_diagnosis"."counter" FROM "api_diagnosis" WHERE "api_diagnosis"."symptom_id" = 3; args=(3,)
+"GET /api/symptoms/3 HTTP/1.1" 200 662
+"GET /api/symptoms HTTP/1.1" 301 0
+(0.000) SELECT "api_symptoms"."id", "api_symptoms"."name" FROM "api_symptoms"; args=()
+"GET /api/symptoms/ HTTP/1.1" 200 89

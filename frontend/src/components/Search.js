@@ -147,7 +147,7 @@ class SearchContainer extends Component {
                     </Form.Group>
                     { 
                         this.state.showGraph ? 
-                        (<><Button variant="success" onClick={this.resetUI} float="center">Success</Button><GraphDiagnosesCount graphData={this.state.graphData} /></>) : null
+                        (<><Button variant="success" onClick={this.resetUI} float="center">Start Over</Button><GraphDiagnosesCount graphData={this.state.graphData} /></>) : null
                     }
                 </Form>
             </div>
